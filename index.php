@@ -240,7 +240,7 @@
     <section class="section">
         <div class="container">
             <div class="left">
-                <img src="exp.jpeg" alt="Worker">
+                <img src="./assets/img/exp.jpeg" alt="Worker">
             </div>
             <div class="right">
                 <h2>Experience the Difference with Our Services</h2>
