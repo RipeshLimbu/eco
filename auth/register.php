@@ -1,28 +1,25 @@
 <?php
-$server = "localhost";
-$username = "root";
-$password = ""; 
-$database = "ecodb";
-$port = 3307;
-// Database connection
-$conn = mysqli_connect($server, $username, $password, $database, $port);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+@include 'regi_ster.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Waste Management System</title>
-    <link rel="stylesheet" href="../assets/style/login.css">
+    <title>Register - Waste Management System</title>
+    <link rel="stylesheet" href="../assets/style/register.css">
 </head>
 <body>
     <div class="login-container">
-        <h1>Login</h1>
-      
+        <h1>Register</h1>
+        <?php if ($error): ?>
+            <p class="error"><?php echo $error; ?></p>
+        <?php endif; ?>
         <form action="" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
@@ -31,9 +28,9 @@ if ($conn->connect_error) {
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </form>
-        <p>Don't have an account? <a href="register.php">Register here</a></p>
+        <p>Already have an account? <a href="login.php">Login here</a></p>
     </div>
 </body>
 </html>

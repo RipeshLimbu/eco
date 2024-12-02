@@ -155,7 +155,7 @@
                 </div>
             </div>
             <div class="services-right">
-                <img src="commercial.jpg" alt="Commercial Waste Collection" class="service-image">
+                <img src="./assets/img/commercial.jpg" class="service-image">
             </div>
         </div>
     </section>
@@ -182,7 +182,7 @@
                 <h2>3,200<span>+</span></h2>
                 <p>Client Satisfaction</p>
             </div>
-            <img src="https://via.placeholder.com/400x600" alt="Worker Image" class="worker-image">
+            <img src="./assets/img/com.jpeg" alt="Worker Image" class="worker-image">
         </div>
 
         <!-- Right Side: Text Content -->
@@ -240,7 +240,7 @@
     <section class="section">
         <div class="container">
             <div class="left">
-                <img src="./assets/img/exp.jpeg" alt="Worker">
+                <img src="../assets/img/exp.jpeg" alt="Worker">
             </div>
             <div class="right">
                 <h2>Experience the Difference with Our Services</h2>
@@ -249,28 +249,28 @@
                         <img src="problem-solving.svg" alt="Problem Solving">
                     </div>
                     <h3>Problem-Solving</h3>
-                    <p>Aenean cursus nunc vel lacin. In hac habitasse platea.</p>
+                    <p></p>
                 </div>
                 <div class="box">
                     <div class="icon">
                         <img src="time-management.svg" alt="Time Management">
                     </div>
                     <h3>Time Management</h3>
-                    <p>Aenean cursus nunc vel lacin. In hac habitasse platea.</p>
+                    <p></p>
                 </div>
                 <div class="box">
                     <div class="icon">
                         <img src="waste-reduction.svg" alt="Waste Reduction">
                     </div>
                     <h3>Waste Reduction</h3>
-                    <p>Aenean cursus nunc vel lacin. In hac habitasse platea.</p>
+                    <p></p>
                 </div>
                 <div class="box">
                     <div class="icon">
                         <img src="teamwork.svg" alt="Teamwork">
                     </div>
                     <h3>Teamwork</h3>
-                    <p>Aenean cursus nunc vel lacin. In hac habitasse platea.</p>
+                    <p></p>
                 </div>
             </div>
         </div>
