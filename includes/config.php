@@ -3,10 +3,9 @@
 $server = "localhost";
 $username = "root";
 $password = ""; 
-$database = "ecodb";
-$port = 3307;
+$database = "project_wms";
 
-$conn = mysqli_connect($server, $username, $password, $database, $port);
+$conn = mysqli_connect($server, $username, $password, $database);
 
 if ($conn) {
     echo "Connection established";

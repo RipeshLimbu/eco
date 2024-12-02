@@ -1,5 +1,26 @@
 <?php
-@include 'regi_ster.php';
+include '../includes/config.php';
+session_start();
+
+ $error='';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $conn->real_escape_string($_POST['name']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $password = $conn->real_escape_string($_POST['password']);
+    $role = 'citizen'; // Default role for new registrations
+
+    $sql = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$password', '$role')";
+    
+    if ($conn->query($sql) === TRUE) {
+        header("Location: login.php");
+        exit();
+    } else {
+        $error = "Error: " . $conn->error;
+    }
+}
+
+$conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
