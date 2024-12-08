@@ -6,8 +6,10 @@ if(isset($_POST['submit'])){
     $mobile=$_POST['mobile'];
     $password=$_POST['password'];
 
-    $sql="INSERT INTO crud(name,email,mobile,password) 
-    values('$name','$email','$mobile','$password')";
+    $sql = "INSERT INTO users (name, email, mobile, password) 
+    VALUES ('$name', '$email', '$mobile', '$password')";
+
+
 
       $result=mysqli_query($conn, $sql);
       if($result){
@@ -31,6 +33,9 @@ if(isset($_POST['submit'])){
 
   </head>
   <body>
+
+    <div class="container mt-5"><h2>Add user</h2></div> <!--heading-->
+
     <div class="container">
     <form action="" method="POST">
         

@@ -36,7 +36,7 @@ $conn->close();
         <?php if ($error): ?>
             <p class="error"><?php echo $error; ?></p>
         <?php endif; ?>
-        <form action="" method="POST">
+        <form action="" method="POST"> 
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
