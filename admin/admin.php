@@ -6,16 +6,7 @@
 //     header("Location: ");
 //     exit();
 // }
-$server = "localhost";
-$username = "root";
-$password = ""; 
-$database = "ecodb";
-$port = 3307;
-// Database connection
-$conn = mysqli_connect($server, $username, $password, $database, $port);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include '../includes/config.php';
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

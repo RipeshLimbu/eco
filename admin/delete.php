@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+include '../includes/config.php';
 //using get method, we can access variable/parameter from the URL
 if(isset($_GET['deleteid'])){
     $id = $_GET['deleteid'];
