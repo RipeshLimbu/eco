@@ -6,7 +6,7 @@ define('DB_PASS', '');
 define('DB_NAME', 'waste_management');
 
 // Application Configuration
-define('BASE_URL', '/neweco');  // Update this according to your setup
+define('BASE_URL', '/eco');  // Update this according to your setup
 
 // Error Reporting
 error_reporting(E_ALL);
