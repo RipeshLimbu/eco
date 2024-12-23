@@ -1,0 +1,17 @@
+/* Collector dashboard specific styles */
+.assignment-card {
+    margin-bottom: 1.5rem;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+} 

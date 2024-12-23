@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conn = new mysqli('localhost', 'root', '', 'waste_management');
+    $conn = new mysqli('localhost', 'root', '', 'waste_management',3307);
     
     $user_id = $_SESSION['user_id'];
     $title = $conn->real_escape_string($_POST['title']);

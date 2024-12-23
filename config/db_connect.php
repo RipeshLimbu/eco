@@ -8,7 +8,7 @@ class Database {
 
     public function connect() {
         try {
-            $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database);
+            $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database, 3307);
             
             if ($this->conn->connect_error) {
                 throw new Exception("Connection failed: " . $this->conn->connect_error);

@@ -21,7 +21,7 @@ $error_message = '';
 $success_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conn = new mysqli('localhost', 'root', '', 'waste_management');
+    $conn = new mysqli('localhost', 'root', '', 'waste_management',3307);
     
     // Validate and sanitize inputs
     $username = $conn->real_escape_string($_POST['username']);

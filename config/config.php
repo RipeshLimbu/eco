@@ -4,6 +4,7 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'waste_management');
+define('DB_PORT', 3307);
 
 // Application Configuration
 define('BASE_URL', '/eco');  // Update this according to your setup

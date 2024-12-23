@@ -2,7 +2,7 @@
 session_start();
 
 // Database connection
-$conn = new mysqli('localhost', 'root', '', 'waste_management');
+$conn = new mysqli('localhost', 'root', '', 'waste_management',3307);
 
 // Check connection
 if ($conn->connect_error) {
