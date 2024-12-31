@@ -1,6 +1,7 @@
 <?php
 require_once '../config/config.php';
-require_once '../config/Database.php';
+require_once '../config/db_connect.php';
+
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'collector') {
@@ -58,6 +59,10 @@ try {
         WHERE id = ? AND collector_id = ?
     ");
     
+// Log the input values
+error_log("Updating assignment with ID: $assignment_id for Collector ID: $collector_id, Status: $status, Notes: $notes");
+
+
     $stmt->bind_param("sssii", $status, $notes, $status, $assignment_id, $collector_id);
     if (!$stmt->execute()) {
         throw new Exception("Failed to update assignment: " . $stmt->error);

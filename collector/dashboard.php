@@ -127,6 +127,7 @@ include '../includes/header.php';
 </nav>
 
 <div class="container mt-4">
+    <!--remains  -->
     <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success alert-dismissible fade show">
             Status updated successfully!
@@ -140,16 +141,14 @@ include '../includes/header.php';
         </div>
     <?php endif; ?>
 
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Total Assignments</h5>
+    <div class="row text-center mb-4">
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h5>Total Assignments</h5>
                     <h2><?php echo $assignment_count; ?></h2>
                 </div>
             </div>
-        </div>
-        <?php
+            <?php
         // Get status counts
         $status_sql = "SELECT status, COUNT(*) as count 
                        FROM assignments 
@@ -164,31 +163,25 @@ include '../includes/header.php';
             $status_counts[$row['status']] = $row['count'];
         }
         ?>
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Pending</h5>
-                    <h2><?php echo $status_counts['pending'] ?? 0; ?></h2>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h5>Pending</h5>
+                    <h2 class="text-warning"><?php echo $status_counts['pending'] ?? 0; ?></h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h5>In Progress</h5>
+                    <h2 class="text-primary"><?php echo $status_counts['in_progress'] ?? 0; ?></h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h5>Completed</h5>
+                    <h2 class="text-success"><?php echo $status_counts['completed'] ?? 0; ?></h2>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">In Progress</h5>
-                    <h2><?php echo $status_counts['in_progress'] ?? 0; ?></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Completed</h5>
-                    <h2><?php echo $status_counts['completed'] ?? 0; ?></h2>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="card">
         <div class="card-header">
@@ -395,22 +388,25 @@ $(document).ready(function() {
         submitBtn.prop('disabled', true);
         
         $.ajax({
-            url: form.attr('action'),
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                console.log('Update successful:', response);
-                $('#updateStatusModal').modal('hide');
-                location.reload();
-            },
-            error: function(xhr, status, error) {
-                console.error('Update failed:', error);
-                alert('Error updating status. Please try again.');
-            },
-            complete: function() {
-                submitBtn.prop('disabled', false);
-            }
-        });
+        url: 'update_status.php',  // Assuming both are in the same directory
+        method: 'POST',
+        data: formData,
+        success: function(response) {
+        console.log('Update successful:', response);
+        $('#updateStatusModal').modal('hide');
+        location.reload();  // Reload the page to reflect changes
+    },
+    error: function(xhr, status, error) {
+        console.error('Update failed:', error);
+        console.log('Response:', xhr.responseText);  // Log the full error response from PHP
+        alert('Error updating status. Please try again.');
+    },
+    complete: function() {
+        submitBtn.prop('disabled', false);
+    }
+});
+
+
     });
 
     // View details modal handler

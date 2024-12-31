@@ -35,6 +35,30 @@ $total_pages = ceil($total_complaints / $per_page);
 $page_title = "User Dashboard";
 include '../includes/header.php';
 ?>
+<style>
+    .modal-header {
+        border-radius: 0.25rem 0.25rem 0 0;
+    }
+
+    .complaint-details label {
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .complaint-details p {
+        font-size: 1rem;
+    }
+
+    .complaint-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .badge {
+        padding: 0.5em 1em;
+        font-size: 0.875rem;
+    }
+</style>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -92,26 +116,27 @@ include '../includes/header.php';
                             <tbody>
                                 <?php if ($complaints->num_rows > 0): ?>
                                     <?php while ($row = $complaints->fetch_assoc()): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($row['title']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['location']); ?></td>
-                                        <td>
-                                            <span class="badge badge-<?php 
-                                                echo match($row['status']) {
-                                                    'pending' => 'warning',
-                                                    'assigned' => 'info',
-                                                    'in_progress' => 'primary',
-                                                    'completed' => 'success',
-                                                    'cancelled' => 'danger',
-                                                    default => 'secondary'
-                                                };
-                                            ?> status-badge">
-                                                <?php echo ucfirst($row['status']); ?>
-                                            </span>
-                                        </td>
-                                        <td><?php echo date('Y-m-d H:i', strtotime($row['created_at'])); ?></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-info view-complaint" 
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($row['title']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['location']); ?></td>
+                                            <td>
+                                                <span class="badge badge-<?php
+                                                                            echo match ($row['status']) {
+                                                                                'pending' => 'warning',
+                                                                                'assigned' => 'info',
+                                                                                'in_progress' => 'primary',
+                                                                                'completed' => 'success',
+                                                                                'cancelled' => 'danger',
+                                                                                default => 'secondary'
+                                                                            };
+                                                                            ?> status-badge">
+                                                    <?php echo ucfirst($row['status']); ?>
+                                                </span>
+                                            </td>
+
+                                            <td><?php echo date('Y-m-d H:i', strtotime($row['created_at'])); ?></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info view-complaint"
                                                     data-id="<?php echo $row['id']; ?>"
                                                     data-title="<?php echo htmlspecialchars($row['title']); ?>"
                                                     data-description="<?php echo htmlspecialchars($row['description']); ?>"
@@ -120,10 +145,11 @@ include '../includes/header.php';
                                                     data-created-at="<?php echo date('Y-m-d H:i', strtotime($row['created_at'])); ?>"
                                                     data-toggle="modal"
                                                     data-target="#viewComplaintModal">
-                                                <i class="fas fa-eye"></i> View Details
-                                            </button>
-                                        </td>
-                                    </tr>
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                            </td>
+
+                                        </tr>
                                     <?php endwhile; ?>
                                 <?php else: ?>
                                     <tr>
@@ -135,15 +161,15 @@ include '../includes/header.php';
                     </div>
 
                     <?php if ($total_pages > 1): ?>
-                    <nav aria-label="Page navigation" class="mt-4">
-                        <ul class="pagination justify-content-center">
-                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                                <li class="page-item <?php echo $i === $page ? 'active' : ''; ?>">
-                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                </li>
-                            <?php endfor; ?>
-                        </ul>
-                    </nav>
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                    <li class="page-item <?php echo $i === $page ? 'active' : ''; ?>">
+                                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
                     <?php endif; ?>
                 </div>
             </div>
@@ -232,76 +258,46 @@ include '../includes/header.php';
 </div>
 
 <script>
-$(document).ready(function() {
-    // View complaint details
-    $('.view-complaint').click(function() {
-        var button = $(this);
-        
-        // Get data from button attributes
-        var data = {
-            title: button.data('title'),
-            description: button.data('description'),
-            location: button.data('location'),
-            status: button.data('status'),
-            createdAt: button.data('createdAt')
-        };
-        
-        console.log('Complaint Data:', data); // Debug log
-        
-        // Update modal content
-        $('#viewComplaintModal .complaint-title').text(data.title);
-        $('#viewComplaintModal .complaint-description').text(data.description || 'No description provided');
-        $('#viewComplaintModal .complaint-location').text(data.location);
-        
-        // Add status with styled badge
-        var statusClass = 
-            data.status === 'completed' ? 'success' :
-            data.status === 'in_progress' ? 'primary' :
-            data.status === 'pending' ? 'warning' : 'secondary';
-        
-        $('#viewComplaintModal .complaint-status').html(
-            `<span class="badge badge-${statusClass}">${data.status.toUpperCase()}</span>`
-        );
-        
-        $('#viewComplaintModal .complaint-date').text(data.createdAt);
-    });
+    $(document).ready(function() {
+        // When clicking on "View Details" button
+        $('.view-complaint').click(function() {
+            var button = $(this);
 
-    // Debug: Log when modal is opened
-    $('#viewComplaintModal').on('show.bs.modal', function () {
-        console.log('View Details Modal Opening');
-        console.log('Modal Title:', $('#viewComplaintModal .complaint-title').text());
-        console.log('Modal Description:', $('#viewComplaintModal .complaint-description').text());
+            // Retrieve the data attributes
+            var title = button.data('title');
+            var description = button.data('description');
+            var location = button.data('location');
+            var status = button.data('status');
+            var createdAt = button.data('createdAt');
+
+            // Ensure data exists
+            if (!title || !description || !location || !status || !createdAt) {
+                console.error('Missing complaint data');
+                return; // Exit if data is missing
+            }
+
+            // Populate the modal with data
+            $('#viewComplaintModal .complaint-title').text(title);
+            $('#viewComplaintModal .complaint-description').text(description || 'No description provided');
+            $('#viewComplaintModal .complaint-location').text(location);
+
+            // Set the status with the appropriate badge
+            var statusClass =
+                status === 'completed' ? 'success' :
+                status === 'in_progress' ? 'primary' :
+                status === 'pending' ? 'warning' :
+                status === 'cancelled' ? 'danger' : 'secondary';
+
+            $('#viewComplaintModal .complaint-status').html(
+                `<span class="badge badge-${statusClass}">${status.toUpperCase()}</span>`
+            );
+
+            $('#viewComplaintModal .complaint-date').text(createdAt);
+        });
     });
-});
 </script>
 
-<!-- Add this CSS -->
-<style>
-.modal-header {
-    border-radius: 0.25rem 0.25rem 0 0;
-}
-
-.complaint-details label {
-    font-weight: 600;
-    font-size: 0.875rem;
-}
-
-.complaint-details p {
-    font-size: 1rem;
-}
-
-.complaint-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-}
-
-.badge {
-    padding: 0.5em 1em;
-    font-size: 0.875rem;
-}
-</style>
-
-<?php 
+<?php
 $conn->close();
-include '../includes/footer.php'; 
-?> 
+include '../includes/footer.php';
+?>
