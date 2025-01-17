@@ -11,13 +11,31 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 $db = new Database();
 $conn = $db->connect();
 
+// Fetch notifications for the user
+$notification_sql = "SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 5";
+$notification_stmt = $conn->prepare($notification_sql);
+$notification_stmt->bind_param("i", $_SESSION['user_id']);
+$notification_stmt->execute();
+$notifications = $notification_stmt->get_result();
+
 // Fetch user's complaints with pagination
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
 
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM complaints WHERE user_id = ? ORDER BY created_at DESC LIMIT ? OFFSET ?";
+$sql = "
+    SELECT 
+        c.*, 
+        a.collector_id, 
+        u.full_name AS collector_name, 
+        a.status AS assignment_status
+    FROM complaints c
+    LEFT JOIN assignments a ON c.id = a.complaint_id
+    LEFT JOIN users u ON a.collector_id = u.id
+    WHERE c.user_id = ?
+    ORDER BY c.created_at DESC
+    LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("iii", $user_id, $per_page, $offset);
 $stmt->execute();
@@ -35,23 +53,19 @@ $total_pages = ceil($total_complaints / $per_page);
 $page_title = "User Dashboard";
 include '../includes/header.php';
 ?>
+
 <style>
-    .modal-header {
-        border-radius: 0.25rem 0.25rem 0 0;
+    .notification {
+        background-color: #f8f9fa;
+        border-left: 4px solid #007bff;
+        padding: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
     }
 
-    .complaint-details label {
-        font-weight: 600;
-        font-size: 0.875rem;
-    }
-
-    .complaint-details p {
-        font-size: 1rem;
-    }
-
-    .complaint-title {
-        font-size: 1.25rem;
-        font-weight: bold;
+    .notification.read {
+        border-left-color: #28a745;
+        background-color: #e2f7e1;
     }
 
     .badge {
@@ -59,7 +73,6 @@ include '../includes/header.php';
         font-size: 0.875rem;
     }
 </style>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -81,13 +94,25 @@ include '../includes/header.php';
 </nav>
 
 <div class="container mt-4">
-    <?php if (isset($_GET['success'])): ?>
-        <div class="alert alert-success alert-dismissible fade show">
-            Complaint submitted successfully!
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <!-- Display Notifications -->
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <h5>Notifications</h5>
+            <?php if ($notifications->num_rows > 0): ?>
+                <?php while ($notification = $notifications->fetch_assoc()): ?>
+                    <div class="notification <?php echo $notification['status']; ?>" data-id="<?php echo $notification['id']; ?>">
+                        <strong><?php echo htmlspecialchars($notification['message']); ?></strong>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <div class="notification">
+                    <strong>No new notifications</strong>
+                </div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
+    </div>
 
+    <!-- Rest of the Dashboard -->
     <div class="row">
         <div class="col-md-12 mb-4">
             <button class="btn btn-success" data-toggle="modal" data-target="#newComplaintModal">
@@ -225,25 +250,17 @@ include '../includes/header.php';
                         <div class="card-body">
                             <h5 class="complaint-title text-primary mb-3"></h5>
                             <div class="row">
-                                <div class="col-12 mb-3">
-                                    <label class="text-muted mb-1">Description</label>
-                                    <p class="complaint-description mb-0"></p>
+                                <div class="col-12">
+                                    <strong>Location: </strong><span class="complaint-location"></span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="text-muted mb-1">Location</label>
-                                    <p class="complaint-location mb-0"></p>
+                                <div class="col-12">
+                                    <strong>Status: </strong><span class="complaint-status"></span>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="text-muted mb-1">Status</label>
-                                    <p class="complaint-status mb-0"></p>
+                                <div class="col-12">
+                                    <strong>Created At: </strong><span class="complaint-created-at"></span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 mb-3">
-                                    <label class="text-muted mb-1">Created At</label>
-                                    <p class="complaint-date mb-0"></p>
+                                <div class="col-12 mt-3">
+                                    <strong>Description: </strong><p class="complaint-description"></p>
                                 </div>
                             </div>
                         </div>
@@ -257,48 +274,30 @@ include '../includes/header.php';
     </div>
 </div>
 
-
 <script>
     $(document).ready(function() {
-        // When clicking on "View Details" button
-        $('.view-complaint').click(function() {
-            var button = $(this);
+        // Handle view complaint modal
+        $('.view-complaint').on('click', function() {
+            const title = $(this).data('title');
+            const description = $(this).data('description');
+            const location = $(this).data('location');
+            const status = $(this).data('status');
+            const createdAt = $(this).data('created-at');
 
-            // Retrieve the data attributes
-            var title = button.data('title');
-            var description = button.data('description');
-            var location = button.data('location');
-            var status = button.data('status');
-            var createdAt = button.data('createdAt');
+            $('.complaint-title').text(title);
+            $('.complaint-description').text(description);
+            $('.complaint-location').text(location);
+            $('.complaint-status').text(status);
+            $('.complaint-created-at').text(createdAt);
+        });
 
-            // Ensure data exists
-            if (!title || !description || !location || !status || !createdAt) {
-                console.error('Missing complaint data');
-                return; // Exit if data is missing
-            }
-
-            // Populate the modal with data
-            $('#viewComplaintModal .complaint-title').text(title);
-            $('#viewComplaintModal .complaint-description').text(description || 'No description provided');
-            $('#viewComplaintModal .complaint-location').text(location);
-
-            // Set the status with the appropriate badge
-            var statusClass =
-                status === 'completed' ? 'success' :
-                status === 'in_progress' ? 'primary' :
-                status === 'pending' ? 'warning' :
-                status === 'cancelled' ? 'danger' : 'secondary';
-
-            $('#viewComplaintModal .complaint-status').html(
-                `<span class="badge badge-${statusClass}">${status.toUpperCase()}</span>`
-            );
-
-            $('#viewComplaintModal .complaint-date').text(createdAt);
+        // Handle notification click (optional)
+        $('.notification').on('click', function() {
+            const notificationId = $(this).data('id');
+            // Optionally, mark the notification as read
+            $(this).addClass('read');
         });
     });
 </script>
 
-<?php
-$conn->close();
-include '../includes/footer.php';
-?>
+<?php include '../includes/footer.php'; ?>
