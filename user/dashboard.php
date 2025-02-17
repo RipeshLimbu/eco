@@ -76,6 +76,9 @@ include '../includes/header.php';
             <a class="nav-link text-white" href="../logout.php">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
+            <a class="nav-link text-white" href="../payment.php">
+                <i class="fas fa-sign-out-alt"></i> pay
+            </a>
         </div>
     </div>
 </nav>

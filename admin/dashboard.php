@@ -9,11 +9,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Debugging: You can remove this after checking the session.
-// echo '<pre>';
-// print_r($_SESSION);
-// echo '</pre>';
-
 $db = new Database();
 $conn = $db->connect();
 
@@ -70,6 +65,9 @@ $completed_count = $status_counts['completed'] ?? 0;
                 <a class="nav-link text-white" href="../logout.php">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
+                <a class="nav-link text-white" href="../payment.php">
+                <i class="fas fa-sign-out-alt"></i> pay
+            </a>
             </div>
         </div>
     </nav>
