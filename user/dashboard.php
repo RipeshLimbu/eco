@@ -73,11 +73,15 @@ include '../includes/header.php';
             <span class="navbar-text text-white mr-3">
                 <i class="fas fa-user"></i> Welcome, <?php echo htmlspecialchars($_SESSION['full_name']); ?>
             </span>
+            <a class="nav-link text-white" href="./user_transaction.php">
+            <i class="fas fa-money-check-alt"></i> Transactions
+            </a>
+            
+            <a class="nav-link text-white" href="../payment/payment.php">
+                <i class="fas fa-sign-out-alt"></i> pay
+            </a>
             <a class="nav-link text-white" href="../logout.php">
                 <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
-            <a class="nav-link text-white" href="../payment.php">
-                <i class="fas fa-sign-out-alt"></i> pay
             </a>
         </div>
     </div>
@@ -115,6 +119,7 @@ include '../includes/header.php';
                                     <th>Status</th>
                                     <th>Created At</th>
                                     <th>Actions</th>
+                                    <th>Picture</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,6 +157,17 @@ include '../includes/header.php';
                                                 </button>
                                             </td>
 
+                                            <td>
+    <?php if ($row['photo']): ?>
+        <a href="<?php echo htmlspecialchars($row['photo']); ?>" target="_blank">
+            <img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Complaint Photo" width="50" height="50" />
+        </a>
+    <?php else: ?>
+        No photo uploaded
+    <?php endif; ?>
+</td>
+
+
                                         </tr>
                                     <?php endwhile; ?>
                                 <?php else: ?>
@@ -188,7 +204,7 @@ include '../includes/header.php';
                 <h5 class="modal-title">New Complaint</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form action="submit_complaint.php" method="POST">
+            <form action="submit_complaint.php" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Title</label>
@@ -202,6 +218,10 @@ include '../includes/header.php';
                         <label>Description</label>
                         <textarea class="form-control" name="description" rows="4" required></textarea>
                     </div>
+                    <div class="form-group">
+                        <label>Upload Photo (optional)</label>
+                        <input type="file" class="form-control-file" name="photo" accept="image/*">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -211,6 +231,7 @@ include '../includes/header.php';
         </div>
     </div>
 </div>
+
 
 <!-- View Complaint Modal -->
 <div class="modal fade" id="viewComplaintModal">

@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 require_once '../config/db_connect.php';
+
 $db = new Database();
 $conn = $db->connect();
 
@@ -23,6 +24,8 @@ $users = $stmt->get_result();
 $success_message = isset($_GET['success']) ? "Operation completed successfully" : "";
 $error_message = isset($_GET['error']) ? "Operation failed" : "";
 
+// include '../includes/header.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -33,12 +36,33 @@ $error_message = isset($_GET['error']) ? "Operation failed" : "";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg" style="background-color: lightgreen;">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.php">Admin Dashboard</a>
-            <div class="navbar-nav">
-                <a class="nav-link active" href="manage_users.php">Manage Users</a>
-                <a class="nav-link" href="../logout.php">Logout</a>
+            <a class="navbar-brand" href="#">
+                <div class="eco-logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>EcoManage</span>
+                </div>
+            </a>
+            <div class="navbar-nav ml-auto">
+            <a class="nav-link text-white" href="dashboard.php">
+                <i class="fas fa-home"></i> Home
+            </a>
+                <a class="nav-link text-white" href="manage_users.php">
+                    <i class="fas fa-users"></i> Manage Users
+                </a>
+                <a class="nav-link text-white" href="../admin/display.php">
+                    <i class="fas fa-users"></i> View Message
+                </a>
+                <a class="nav-link text-white" href="./reports.php">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <span class="navbar-text text-white mx-3">
+                    <i class="fas fa-user"></i> Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                </span>
+                <a class="nav-link text-white" href="../logout.php">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
             </div>
         </div>
     </nav>
@@ -76,6 +100,7 @@ $error_message = isset($_GET['error']) ? "Operation failed" : "";
                             <th>Phone</th>
                             <th>Created At</th>
                             <th>Actions</th>
+                            <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,6 +129,14 @@ $error_message = isset($_GET['error']) ? "Operation failed" : "";
                                     <i class="fas fa-trash"></i>
                                 </button>
                                 <?php endif; ?>
+                            </td>
+                            <td>
+                            <form action="../payment/payment.php" method="GET">
+                            <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-credit-card"></i> Pay
+                            </button>
+                            </form>
                             </td>
                         </tr>
                         <?php endwhile; ?>

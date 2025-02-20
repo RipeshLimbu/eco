@@ -55,21 +55,23 @@ try {
 
     // Main query to fetch assignments
     $sql = "SELECT 
-                a.id as assignment_id,
-                a.status as assignment_status,
-                a.notes,
-                a.completed_at,
-                c.id as complaint_id,
-                c.title,
-                c.description,
-                c.location,
-                c.status as complaint_status,
-                u.full_name as user_name,
-                u.phone as user_phone
-            FROM assignments a 
-            LEFT JOIN complaints c ON a.complaint_id = c.id 
-            LEFT JOIN users u ON c.user_id = u.id 
-            WHERE a.collector_id = ?";
+    a.id as assignment_id,
+    a.status as assignment_status,
+    a.notes,
+    a.completed_at,
+    c.id as complaint_id,
+    c.title,
+    c.description,
+    c.location,
+    c.status as complaint_status,
+    c.photo,  -- Added this line to include the photo
+    u.full_name as user_name,
+    u.phone as user_phone
+FROM assignments a 
+LEFT JOIN complaints c ON a.complaint_id = c.id 
+LEFT JOIN users u ON c.user_id = u.id 
+WHERE a.collector_id = ?";
+
 
     // Debug: Log the SQL query
     error_log("SQL Query: " . $sql);
@@ -119,6 +121,9 @@ include '../includes/header.php';
             <span class="navbar-text text-white mr-3">
                 <i class="fas fa-user"></i> Welcome, <?php echo htmlspecialchars($_SESSION['full_name']); ?>
             </span>
+            <a class="nav-link text-white" href="transactions.php">
+    <i class="fas fa-money-check-alt"></i> Transactions
+</a>
             <a class="nav-link text-white" href="../logout.php">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
@@ -198,6 +203,7 @@ include '../includes/header.php';
                             <th>Location</th>
                             <th>Status</th>
                             <th>Actions</th>
+                            <th>Photo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -248,6 +254,17 @@ include '../includes/header.php';
                                         <i class="fas fa-eye"></i> View
                                     </button>
                                 </td>
+                                <td>
+                                <?php if (!empty($row['photo'])): ?>
+                                    <a href="<?php echo htmlspecialchars($row['photo']); ?>" target="_blank">
+                                    <img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Complaint Photo" width="50" height="50" />
+                                </a>
+                            <?php else: ?>
+                                No photo uploaded
+                            <?php endif; ?>
+
+                            </td>
+                                
                             </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

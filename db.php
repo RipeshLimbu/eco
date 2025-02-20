@@ -6,7 +6,7 @@ $host = 'localhost';
  $database = 'waste_management';
 
 
- $conn = mysqli_connect($host, $username, $password, $database, 3307);
+ $conn = mysqli_connect($host, $username, $password, $database, 3306);
 
  if($conn){
     echo "success";

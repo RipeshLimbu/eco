@@ -76,3 +76,44 @@ VALUES (
     'Ripesh Limbu',
     '9807766556788'
 );
+-- Create contact_submissions table to store form submissions
+CREATE TABLE IF NOT EXISTS contact_submissions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--payment table
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,          -- Auto-incremented ID for each record
+    transaction_id VARCHAR(255) NOT NULL,       -- Unique transaction ID for each payment
+    amount DECIMAL(10, 2) NOT NULL,            -- Amount paid
+    total_amount DECIMAL(10, 2) NOT NULL,      -- Total amount of the transaction
+    mobile VARCHAR(15) NOT NULL,               -- Mobile number associated with the payment
+    status ENUM('paid', 'due') NOT NULL,       -- Payment status (either 'paid' or 'due')
+    purchase_order_id VARCHAR(255) NOT NULL,   -- Unique ID for the purchase order
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of when the payment record is created
+    UPDATE payments SET status = 'due' WHERE status IS NULL OR status = '';
+    ALTER TABLE payments MODIFY status VARCHAR(20) NOT NULL DEFAULT 'due';
+-- Step 1: Add the necessary columns to the payments table
+ALTER TABLE payments
+ADD COLUMN admin_id INT,
+ADD COLUMN user_id INT,
+ADD COLUMN collector_id INT;
+
+-- Step 2: Add the foreign key constraints
+ALTER TABLE payments
+ADD CONSTRAINT fk_admin_id FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_collector_id FOREIGN KEY (collector_id) REFERENCES users(id) ON DELETE CASCADE;
+
+-- Step 3: Update payments status where needed
+UPDATE payments SET status = 'due' WHERE status IS NULL OR status = '';
+
+-- Step 4: Alter payments table to change status column to a VARCHAR with default value 'due'
+ALTER TABLE payments MODIFY status VARCHAR(20) NOT NULL DEFAULT 'due';
+
+);

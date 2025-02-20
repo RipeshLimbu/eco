@@ -60,8 +60,8 @@ include '../includes/header.php';
             </div>
         </a>
         <div class="navbar-nav ml-auto">
-            <a class="nav-link text-white" href="dashboard.php">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
+        <a class="nav-link text-white" href="dashboard.php">
+                <i class="fas fa-home"></i> Home
             </a>
             <a class="nav-link text-white" href="../logout.php">
                 <i class="fas fa-sign-out-alt"></i> Logout
@@ -88,7 +88,7 @@ include '../includes/header.php';
 
     <!-- Overall Statistics Cards -->
     <div class="row mb-4">
-        <div class="col-md-2">
+        <div class="col-md-3 p-2">
             <div class="card stats-card bg-primary text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-clipboard-list fa-2x mb-2"></i>
@@ -97,7 +97,7 @@ include '../includes/header.php';
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3 p-2">
             <div class="card stats-card bg-warning text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-clock fa-2x mb-2"></i>
@@ -106,7 +106,7 @@ include '../includes/header.php';
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3 p-2">
             <div class="card stats-card bg-info text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-spinner fa-2x mb-2"></i>
@@ -115,7 +115,7 @@ include '../includes/header.php';
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3 p-2">
             <div class="card stats-card bg-success text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-check-circle fa-2x mb-2"></i>
@@ -124,7 +124,7 @@ include '../includes/header.php';
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3 p-2">
             <div class="card stats-card bg-secondary text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-truck fa-2x mb-2"></i>
@@ -133,7 +133,7 @@ include '../includes/header.php';
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3 p-2">
             <div class="card stats-card bg-dark text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-users fa-2x mb-2"></i>

@@ -23,6 +23,7 @@ $complaints = $conn->query($sql);
 $sql = "SELECT id, username, full_name FROM users WHERE role='collector'";
 $collectors = $conn->query($sql);
 
+
 // Get counts for different statuses
 $sql = "SELECT status, COUNT(*) as count FROM complaints GROUP BY status";
 $result = $conn->query($sql);
@@ -34,6 +35,9 @@ while ($row = $result->fetch_assoc()) {
 $pending_count = $status_counts['pending'] ?? 0;
 $progress_count = $status_counts['in_progress'] ?? 0;
 $completed_count = $status_counts['completed'] ?? 0;
+
+include '../includes/header.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -56,18 +60,22 @@ $completed_count = $status_counts['completed'] ?? 0;
                 <a class="nav-link text-white" href="manage_users.php">
                     <i class="fas fa-users"></i> Manage Users
                 </a>
+                <a class="nav-link text-white" href="../admin/display.php">
+                    <i class="fas fa-users"></i> View Message
+                </a>
                 <a class="nav-link text-white" href="reports.php">
                     <i class="fas fa-chart-bar"></i> Reports
                 </a>
+                <a class="nav-link text-white" href="transactions.php">
+    <i class="fas fa-money-check-alt"></i> Transactions
+</a>
+
                 <span class="navbar-text text-white mx-3">
                     <i class="fas fa-user"></i> Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                 </span>
                 <a class="nav-link text-white" href="../logout.php">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
-                <a class="nav-link text-white" href="../payment.php">
-                <i class="fas fa-sign-out-alt"></i> pay
-            </a>
             </div>
         </div>
     </nav>
@@ -164,6 +172,7 @@ $completed_count = $status_counts['completed'] ?? 0;
                                 <th>Status</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
+                                <th>Photo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -199,6 +208,18 @@ $completed_count = $status_counts['completed'] ?? 0;
                                     </button>
                                     <?php endif; ?>
                                 </td>
+
+                            <td>
+                            <?php if ($row['photo']): ?>
+                                <a href="<?php echo htmlspecialchars($row['photo']); ?>" target="_blank">
+                                    <img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Complaint Photo" width="50" height="50" />
+                                </a>
+                            <?php else: ?>
+                                No photo uploaded
+                            <?php endif; ?>
+                            </td>
+
+
                             </tr>
                             <?php endwhile; ?>
                         </tbody>

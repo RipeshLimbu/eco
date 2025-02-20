@@ -8,14 +8,14 @@ class Database {
 
     public function connect() {
         try {
-            $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database, 3307);
+            $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database, 3306);
            
             if ($this->conn->connect_error) {
                 throw new Exception("Connection failed: " . $this->conn->connect_error);
             }
             
             // Display a success message if connected
-            echo "Database connected successfully!";
+            // echo "Database connected successfully!";
             return $this->conn;
         } catch (Exception $e) {
             die("Database connection failed: " . $e->getMessage());

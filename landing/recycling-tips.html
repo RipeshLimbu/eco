@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recycling Tips - ecoManage</title>
+  <style>
+    /* Fonts */
+    :root {
+      --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --heading-font: "Nunito", sans-serif;
+      --nav-font: "Inter", sans-serif;
+    }
+
+    /* Global Colors */
+    :root { 
+      --background-color: #ffffff;
+      --default-color: #212529;
+      --heading-color: #2d465e;
+      --accent-color: #0d83fd;
+      --surface-color: #ffffff;
+      --contrast-color: #ffffff;
+    }
+
+    /* Page Styles */
+    body {
+      font-family: var(--default-font);
+      background-color: var(--background-color);
+      color: var(--default-color);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    header {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+      padding: 20px 0;
+      text-align: center;
+    }
+    
+    header h1 {
+      font-size: 36px;
+      font-weight: bold;
+      font-family: var(--heading-font);
+    }
+
+    /* Page Title Section */
+    .page-title {
+      background-color: #81c784;
+      text-align: center;
+      padding: 40px 20px;
+      margin-bottom: 30px;
+    }
+
+    .page-title h1 {
+      font-size: 40px;
+      color: var(--contrast-color);
+      margin-bottom: 10px;
+    }
+
+    .page-title p {
+      font-size: 18px;
+      color: var(--contrast-color);
+    }
+
+    /* Content Section */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: var(--surface-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .content h2 {
+      font-size: 30px;
+      color: var(--heading-color);
+      margin-bottom: 20px;
+      font-family: var(--heading-font);
+    }
+
+    .content ul {
+      list-style-type: none;
+    }
+
+    .content li {
+      font-size: 18px;
+      color: var(--default-color);
+      margin: 10px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .content li::before {
+      content: "✔";
+      color: var(--accent-color);
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* Footer Section */
+    footer {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    footer p {
+      font-size: 16px;
+    }
+
+    /* Light Background for Specific Sections */
+    .light-background {
+      --background-color: #f3f9ff;
+      --surface-color: #ffffff;
+    }
+    
+    /* Dark Background for Specific Sections */
+    .dark-background {
+      --background-color: #0d83fd;
+      --default-color: #ffffff;
+      --heading-color: #ffffff;
+      --surface-color: #409dfd;
+      --contrast-color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>ecoManage</h1>
+  </header>
+  
+  <section class="page-title">
+    <h1>Recycling Tips</h1>
+    <p>Learn how to recycle effectively and reduce your environmental impact.</p>
+  </section>
+  
+  <section class="content">
+    <h2>Tips for Recycling</h2>
+    <ul>
+      <li>Always clean your recyclables before placing them in the bin.</li>
+      <li>Avoid contaminating recyclables with food waste.</li>
+      <li>Separate your recyclables by material (paper, plastics, metals, etc.).</li>
+      <li>Check with local authorities for recyclable materials specific to your area.</li>
+      <li>Make use of recycling programs in your community.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>© 2025 ecoManage. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>
